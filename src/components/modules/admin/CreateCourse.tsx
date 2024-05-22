@@ -29,32 +29,6 @@ const CreateCourse = () => {
                 name="session"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="labelText">Enter Session</FormLabel>
-                    <FormControl>
-                      <Select onValueChange={field.onChange}>
-                        <SelectTrigger className=" focus:!ring-0 inputStyle">
-                          <SelectValue placeholder="Select" className="text-[16px]" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectItem value="2022/2023">2022/2023</SelectItem>
-                            <SelectItem value="2023/2024">2023/2024</SelectItem>
-                            <SelectItem value="2024/2025">2024/2025</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="grid gap-y-1.5 mt-2 pb-6">
-              <FormField
-                control={form.control}
-                name="session"
-                render={({ field }) => (
-                  <FormItem>
                     <FormLabel className="labelText">Select Level</FormLabel>
                     <FormControl>
                       <Select onValueChange={field.onChange}>
@@ -111,6 +85,23 @@ const CreateCourse = () => {
                     <FormControl>
                       <>
                         <Input placeholder="Enter course code e.g CSC 280" {...field} />
+                      </>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="grid gap-y-1.5 pb-6">
+              <FormField
+                control={form.control}
+                name="course-title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="labelText">Enter Course Title</FormLabel>
+                    <FormControl>
+                      <>
+                        <Input placeholder="Enter course title" {...field} />
                       </>
                     </FormControl>
                   </FormItem>
