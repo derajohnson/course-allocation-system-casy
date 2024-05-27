@@ -12,39 +12,112 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FormControl, FormField, FormItem, FormLabel, Form } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  Form,
+  FormMessage,
+} from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import { useRouter } from "next/navigation";
+import { Course, courseSchema } from "@/models/Courses";
+import { zodResolver } from "@hookform/resolvers/zod";
+import handleCreateCourse from "@/services/Courses";
+import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
+import LoaderButton from "../common/LoaderButton";
 
 const CreateCourse = () => {
-  const form = useForm();
+  const { toast } = useToast();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const form = useForm<Course>({
+    resolver: zodResolver(courseSchema),
+    defaultValues: {
+      level: "",
+      semester: "",
+      course_code: "",
+      course_description: "",
+      course_title: "",
+      credit_unit: undefined,
+    },
+  });
+  const validateAndSubmit = async ({
+    level,
+    semester,
+    course_code,
+    course_description,
+    course_title,
+    credit_unit,
+  }: Course): Promise<void> => {
+    setLoading(true);
+    const result = await handleCreateCourse(
+      level,
+      semester,
+      course_code,
+      course_description,
+      course_title,
+      credit_unit,
+    );
+
+    if (result) {
+      setLoading(false);
+      toast({
+        title: "Course Creation Successfull",
+        description: "You have successfully created a course.",
+        duration: 5000,
+        variant: "default",
+      });
+      router.push("/admin-dashboard");
+    } else {
+      setLoading(false);
+      toast({
+        title: "Course creation failed",
+        description: "An error occurred",
+        duration: 5000,
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div>
       <h1 className="text-xl font-semibold mb-10">Create Course</h1>
       <Form {...form}>
-        <form>
+        <form onSubmit={form.handleSubmit(validateAndSubmit)}>
           <div className="w-3/5">
             <div className="grid gap-y-1.5 mt-2 pb-6">
               <FormField
                 control={form.control}
-                name="session"
+                name="level"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="labelText">Select Level</FormLabel>
-                    <FormControl>
-                      <Select onValueChange={field.onChange}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a level" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectItem value="100">100</SelectItem>
-                            <SelectItem value="200">200</SelectItem>
-                            <SelectItem value="300">300</SelectItem>
-                            <SelectItem value="400">400</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
+                    <>
+                      <FormLabel className="labelText">Select Level</FormLabel>
+                      <FormControl>
+                        <Select onValueChange={field.onChange}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a level" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem value="100">100</SelectItem>
+                              <SelectItem value="200">200</SelectItem>
+                              <SelectItem value="300">300</SelectItem>
+                              <SelectItem value="400">400</SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      {form.formState.errors.level && (
+                        <FormMessage className="text-red-500 text-sm">
+                          {form.formState.errors.level.message}
+                        </FormMessage>
+                      )}
+                    </>
                   </FormItem>
                 )}
               />
@@ -78,15 +151,22 @@ const CreateCourse = () => {
             <div className="grid gap-y-1.5 pb-6">
               <FormField
                 control={form.control}
-                name="course-code"
+                name="course_code"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="labelText">Enter Course Code</FormLabel>
-                    <FormControl>
-                      <>
-                        <Input placeholder="Enter course code e.g CSC 280" {...field} />
-                      </>
-                    </FormControl>
+                    <>
+                      <FormLabel className="labelText">Enter Course Code</FormLabel>
+                      <FormControl>
+                        <>
+                          <Input placeholder="Enter course code e.g CSC 280" {...field} />
+                        </>
+                      </FormControl>
+                      {form.formState.errors.course_code && (
+                        <FormMessage className="text-red-500 text-sm">
+                          {form.formState.errors.course_code.message}
+                        </FormMessage>
+                      )}
+                    </>
                   </FormItem>
                 )}
               />
@@ -95,15 +175,22 @@ const CreateCourse = () => {
             <div className="grid gap-y-1.5 pb-6">
               <FormField
                 control={form.control}
-                name="course-title"
+                name="course_title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="labelText">Enter Course Title</FormLabel>
-                    <FormControl>
-                      <>
-                        <Input placeholder="Enter course title" {...field} />
-                      </>
-                    </FormControl>
+                    <>
+                      <FormLabel className="labelText">Enter Course Title</FormLabel>
+                      <FormControl>
+                        <>
+                          <Input placeholder="Enter course title" {...field} />
+                        </>
+                      </FormControl>
+                      {form.formState.errors.course_title && (
+                        <FormMessage className="text-red-500 text-sm">
+                          {form.formState.errors.course_title.message}
+                        </FormMessage>
+                      )}
+                    </>
                   </FormItem>
                 )}
               />
@@ -111,7 +198,7 @@ const CreateCourse = () => {
             <div className="grid gap-y-1.5 pb-6">
               <FormField
                 control={form.control}
-                name="description"
+                name="course_description"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="labelText">Enter course description</FormLabel>
@@ -124,6 +211,11 @@ const CreateCourse = () => {
                         />
                       </>
                     </FormControl>
+                    {form.formState.errors.course_description && (
+                      <FormMessage className="text-red-500 text-sm">
+                        {form.formState.errors.course_description.message}
+                      </FormMessage>
+                    )}
                   </FormItem>
                 )}
               />
@@ -132,7 +224,7 @@ const CreateCourse = () => {
             <div className="grid gap-y-1.5 pb-6">
               <FormField
                 control={form.control}
-                name="credit-unit"
+                name="credit_unit"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="labelText">Enter Credit Unit</FormLabel>
@@ -141,15 +233,20 @@ const CreateCourse = () => {
                         <Input placeholder="Enter credit unit" type="number" {...field} />
                       </>
                     </FormControl>
+                    {form.formState.errors.credit_unit && (
+                      <FormMessage className="text-red-500 text-sm">
+                        {form.formState.errors.credit_unit.message}
+                      </FormMessage>
+                    )}
                   </FormItem>
                 )}
               />
             </div>
 
             <div className="flex justify-end">
-              <Button type="submit" className="px-8 text-right self">
-                <p className="font-semibold">Submit</p>
-              </Button>
+              <LoaderButton className="px-8 text-right self w-30" isLoading={loading}>
+                Submit
+              </LoaderButton>
             </div>
           </div>
         </form>

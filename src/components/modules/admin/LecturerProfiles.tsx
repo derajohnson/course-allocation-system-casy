@@ -1,14 +1,25 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+"use client";
+
+import { useEffect } from "react";
 import ProfileCard from "../common/ProfileCard";
+import handleAllGetLecturers from "@/services/Lecturers";
 
 const LecturerProfiles = () => {
+  const authToken = localStorage.getItem("authToken");
+
+  useEffect(() => {
+    console.log(authToken);
+
+    if (!authToken) {
+      throw new Error("No authentication token found");
+    }
+    async function getLecturers() {
+      const data = await handleAllGetLecturers(authToken as string);
+      console.log(data);
+    }
+    getLecturers();
+  }, [authToken]);
+
   return (
     <div>
       <h1 className="text-xl font-semibold mb-10">Lecturer Profiles</h1>

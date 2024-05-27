@@ -21,7 +21,7 @@ const SidebarItem = (props: Props): React.JSX.Element => {
       <Link
         href={props.url}
         className={`text-[18px] leading-[18px} font-medium hover:text-white ${
-          checkPathMatch(props.title) ? "text-[#032900]" : "text-muted"
+          checkPathMatch(props.title) ? "text-muted" : "text-muted"
         }`}
       >
         {props.title}
