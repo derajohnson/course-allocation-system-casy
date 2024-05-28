@@ -1,4 +1,4 @@
-import Dashboard from "@/components/modules/admin/Dashboard";
+import Dashboard from "@/components/modules/hod/Dashboard";
 
 const dashboard = () => {
   return <Dashboard />;

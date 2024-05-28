@@ -16,11 +16,6 @@ const HomePage = () => {
           <div>
             <h1 className="text-3xl font-bold">Course Allocation System Uniport</h1>
             <p className="text-2xl mt-4">A Streamlined Approach to Course Allocation</p>
-            <div className="mt-10 gap-4 flex justify-center">
-              <Link href="#course-allocated" scroll={false}>
-                <Button>View Course Allocation</Button>
-              </Link>
-            </div>
           </div>
         </div>
       </div>

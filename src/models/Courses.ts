@@ -9,6 +9,15 @@ export type Course = {
   credit_unit: number;
 };
 
+export type CourseAllocate = {
+  session: string;
+  semester: string;
+  level: string;
+  course_code: string;
+  head_lecturer: string;
+  assistant_lecturer: string;
+};
+
 export const courseSchema: ZodType<Course> = z.object({
   level: z.string({
     required_error: "Level is required",
@@ -37,4 +46,26 @@ export const courseSchema: ZodType<Course> = z.object({
     })
     .min(4, { message: "Course description is too short" }),
   credit_unit: z.coerce.number().max(9, { message: "Credit unit is too much!" }),
+});
+
+export const courseAllocateSchema: ZodType<CourseAllocate> = z.object({
+  level: z.string({
+    required_error: "Level is required",
+  }),
+  semester: z.string({
+    required_error: "Level is required",
+  }),
+  head_lecturer: z.string({
+    required_error: "Level is required",
+  }),
+  assistant_lecturer: z.string({
+    required_error: "Level is required",
+  }),
+  session: z.string({
+    required_error: "Level is required",
+  }),
+  course_code: z.string({
+    required_error: "Course code is required",
+    invalid_type_error: "Please enter a valid course code",
+  }),
 });

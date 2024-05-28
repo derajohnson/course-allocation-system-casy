@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import Sidebar from "@/components/modules/common/SideBar";
 
 export const metadata: Metadata = {
-  title: "Course Allocation | Admin",
+  title: "Course Allocation | HOD",
   description: "Streamline your course allocation process",
 };
 

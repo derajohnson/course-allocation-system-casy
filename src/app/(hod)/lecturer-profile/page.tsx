@@ -1,4 +1,4 @@
-import LecturerProfiles from "@/components/modules/admin/LecturerProfiles";
+import LecturerProfiles from "@/components/modules/hod/LecturerProfiles";
 
 const lecturerProfile = () => {
   return <LecturerProfiles />;

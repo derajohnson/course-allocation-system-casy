@@ -24,7 +24,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import { Course, courseSchema } from "@/models/Courses";
 import { zodResolver } from "@hookform/resolvers/zod";
-import handleCreateCourse from "@/services/Courses";
+import { handleCreateCourse } from "@/services/Courses";
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
 import LoaderButton from "../common/LoaderButton";
@@ -34,6 +34,7 @@ const CreateCourse = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
+  const token = localStorage.getItem("authToken");
   const form = useForm<Course>({
     resolver: zodResolver(courseSchema),
     defaultValues: {
@@ -61,6 +62,7 @@ const CreateCourse = () => {
       course_description,
       course_title,
       credit_unit,
+      token as string,
     );
 
     if (result) {
@@ -71,7 +73,7 @@ const CreateCourse = () => {
         duration: 5000,
         variant: "default",
       });
-      router.push("/admin-dashboard");
+      router.push("/hod-dashboard");
     } else {
       setLoading(false);
       toast({

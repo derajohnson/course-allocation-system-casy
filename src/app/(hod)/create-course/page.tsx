@@ -1,4 +1,4 @@
-import CreateCourse from "@/components/modules/admin/CreateCourse";
+import CreateCourse from "@/components/modules/hod/CreateCourse";
 
 const createCourse = () => {
   return <CreateCourse />;

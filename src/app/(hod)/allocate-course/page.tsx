@@ -1,4 +1,4 @@
-import AllocateCourse from "@/components/modules/admin/AllocateCourse";
+import AllocateCourse from "@/components/modules/hod/AllocateCourse";
 
 const allocateCourse = () => {
   return <AllocateCourse />;

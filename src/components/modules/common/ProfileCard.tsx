@@ -12,21 +12,24 @@ type CardType = {
   title: string;
   phone: string;
   email: string;
+  designation: string;
+  department: string;
 };
 
-const ProfileCard = ({ name, title, phone, email }: CardType) => {
+const ProfileCard = ({ name, title, phone, email, designation, department }: CardType) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{name}</CardTitle>
-        <CardDescription>{title}</CardDescription>
+        <CardTitle>
+          {title}, {name}
+        </CardTitle>
+        <CardDescription>{designation}</CardDescription>
       </CardHeader>
       <CardContent>
-        <p>email: {email}</p>
+        <p className="mb-3">department: {department}</p>
+        <p className="mb-3">email: {email}</p>
+        <p className="mb-3">phone number: {phone}</p>
       </CardContent>
-      <CardFooter>
-        <p>phone number: {phone}</p>
-      </CardFooter>
     </Card>
   );
 };
