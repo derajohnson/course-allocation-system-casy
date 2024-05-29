@@ -44,8 +44,6 @@ export async function handleGetAllCourses(token: string) {
 
 export async function handleAllocateCourse(
   session: string,
-  level: string,
-  semester: string,
   course_code: string,
   head_lecturer: string,
   assistant_lecturer: string,
@@ -54,8 +52,6 @@ export async function handleAllocateCourse(
   const courseAllocate = {
     allocation: {
       session,
-      level,
-      semester,
       course_id: course_code,
       head_lecturer,
       assistant_lecturer,
@@ -68,6 +64,34 @@ export async function handleAllocateCourse(
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(courseAllocate),
+  });
+  const result = await response.json();
+  if (response.ok && result.data) {
+    return result;
+  }
+  throw new Error(result.message);
+}
+
+export async function handleGetAllAllocatedCourses() {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/allocated-courses`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const result = await response.json();
+  if (response.ok && result.data) {
+    return result;
+  }
+  throw new Error(result.message);
+}
+
+export async function handleGetIndividualCourse(courseId: string) {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/allocated-courses/${courseId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
   const result = await response.json();
   if (response.ok && result.data) {

@@ -82,6 +82,7 @@ const Dashboard = () => {
         throw error;
       });
   }
+
   return (
     <div>
       <h1 className="text-xl font-semibold mb-10">Course List</h1>
@@ -131,7 +132,7 @@ const Dashboard = () => {
               </TableCell>
               <TableCell>{data.course_title}</TableCell>
               <TableCell>
-                {data.isAllocated ? (
+                {data.is_allocated ? (
                   <Badge variant="outline"> Yes </Badge>
                 ) : (
                   <Badge variant="destructive">No</Badge>

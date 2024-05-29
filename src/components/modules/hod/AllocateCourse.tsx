@@ -39,8 +39,6 @@ const AllocateCourse = () => {
   const form = useForm<CourseAllocate>({
     resolver: zodResolver(courseAllocateSchema),
     defaultValues: {
-      level: "",
-      semester: "",
       course_code: "",
       head_lecturer: "",
       assistant_lecturer: "",
@@ -48,19 +46,16 @@ const AllocateCourse = () => {
     },
   });
   const validateAndSubmit = async ({
-    level,
-    semester,
-    course_code,
     session,
+    course_code,
     head_lecturer,
     assistant_lecturer,
   }: CourseAllocate): Promise<void> => {
     setLoading(true);
+    console.log(course_code);
     const result = await handleAllocateCourse(
-      level,
-      semester,
-      course_code,
       session,
+      course_code,
       head_lecturer,
       assistant_lecturer,
       token as string,
@@ -129,68 +124,6 @@ const AllocateCourse = () => {
                     {form.formState.errors.session && (
                       <FormMessage className="text-red-500 text-sm">
                         {form.formState.errors.session.message}
-                      </FormMessage>
-                    )}
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="grid gap-y-1.5 mt-2 pb-6">
-              <FormField
-                control={form.control}
-                name="session"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="labelText">Select Level</FormLabel>
-                    <FormControl>
-                      <Select onValueChange={field.onChange}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a level" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectItem value="100">100</SelectItem>
-                            <SelectItem value="200">200</SelectItem>
-                            <SelectItem value="300">300</SelectItem>
-                            <SelectItem value="400">400</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    {form.formState.errors.session && (
-                      <FormMessage className="text-red-500 text-sm">
-                        {form.formState.errors.session.message}
-                      </FormMessage>
-                    )}
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="grid gap-y-1.5 mt-2 pb-6">
-              <FormField
-                control={form.control}
-                name="semester"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="labelText">Enter Semester</FormLabel>
-                    <FormControl>
-                      <Select onValueChange={field.onChange}>
-                        <SelectTrigger className=" focus:!ring-0 inputStyle">
-                          <SelectValue placeholder="Select" className="text-[16px]" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectItem value="first">First</SelectItem>
-                            <SelectItem value="second">Second</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    {form.formState.errors.semester && (
-                      <FormMessage className="text-red-500 text-sm">
-                        {form.formState.errors.semester.message}
                       </FormMessage>
                     )}
                   </FormItem>

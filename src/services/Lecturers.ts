@@ -13,8 +13,6 @@ export default async function handleGetAllLecturers(token: string) {
   throw new Error(result.message);
 }
 
-///lecturers/profile
-
 export async function handleGetLecturer(token: string) {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/lecturers/profile`, {
     method: "GET",

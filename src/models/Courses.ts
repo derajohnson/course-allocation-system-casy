@@ -11,8 +11,6 @@ export type Course = {
 
 export type CourseAllocate = {
   session: string;
-  semester: string;
-  level: string;
   course_code: string;
   head_lecturer: string;
   assistant_lecturer: string;
@@ -38,7 +36,7 @@ export const courseSchema: ZodType<Course> = z.object({
       invalid_type_error: "Please enter a valid course title",
     })
     .min(4, { message: "Course title is too short" })
-    .max(30, { message: "Course title is too long" }),
+    .max(50, { message: "Course title is too long" }),
   course_description: z
     .string({
       required_error: "Course description is required",
@@ -49,12 +47,6 @@ export const courseSchema: ZodType<Course> = z.object({
 });
 
 export const courseAllocateSchema: ZodType<CourseAllocate> = z.object({
-  level: z.string({
-    required_error: "Level is required",
-  }),
-  semester: z.string({
-    required_error: "Level is required",
-  }),
   head_lecturer: z.string({
     required_error: "Level is required",
   }),

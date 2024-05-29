@@ -8,9 +8,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { handleGetAllAllocatedCourses } from "@/services/Courses";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const CourseAllocated = () => {
+  const [allAllocatedCourses, setAllAllocatedCourses] = useState();
+
+  useEffect(() => {
+    async function getAllAllocatedCourses() {
+      const data = await handleGetAllAllocatedCourses();
+      setAllAllocatedCourses(data);
+    }
+    getAllAllocatedCourses();
+  }, []);
   return (
     <div className="container mx-auto px-4 mb-10" id="course-allocated">
       <h1 className="text-xl font-semibold my-10">Courses Allocated</h1>
@@ -25,23 +36,19 @@ const CourseAllocated = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow id="1">
-            <TableCell className="font-medium">2022/2023</TableCell>
-            <TableCell>CSC 496.1</TableCell>
-            <TableCell>
-              <Link href="/course-description/1">4th and 5th programming languages</Link>
-            </TableCell>
-            <TableCell>Year 4</TableCell>
-            <TableCell>Dr Linda Oghenekaro</TableCell>
-          </TableRow>
-
-          <TableRow id="2">
-            <TableCell className="font-medium">2022/2023</TableCell>
-            <TableCell>CSC 183.2</TableCell>
-            <TableCell>Python programming language</TableCell>
-            <TableCell>Year 1</TableCell>
-            <TableCell>Professor Edward Ogheneovo</TableCell>
-          </TableRow>
+          {allAllocatedCourses?.data.map((course, index) => (
+            <TableRow id={course._id} key={index}>
+              <TableCell className="font-medium">{course.session}</TableCell>
+              <TableCell>
+                {course.course_code} {course.semester === "first" ? ".1" : ".2"}
+              </TableCell>
+              <TableCell>
+                <Link href={`/course-description/${course._id}`}>{course.course_title}</Link>
+              </TableCell>
+              <TableCell>Year {course.level.split(0, 2)}</TableCell>
+              <TableCell>{course.head_lecturer.name}</TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </div>
