@@ -1,5 +1,6 @@
 "use client";
 
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -15,6 +16,24 @@ import { useEffect, useState } from "react";
 
 const CourseAllocated = () => {
   const [allAllocatedCourses, setAllAllocatedCourses] = useState<AllocatedCourse>();
+  const [searchTerm, setSearchTerm] = useState("");
+  useEffect(() => {
+    async function getAllAllocatedCourses() {
+      const data = await handleGetAllAllocatedCourses();
+      setAllAllocatedCourses(data);
+    }
+    getAllAllocatedCourses();
+  }, []);
+
+  // Handler for search input change
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value.toLowerCase());
+  };
+
+  // Filtered courses based on search term
+  const filteredCourses = allAllocatedCourses?.data.filter((course) =>
+    course.course_title.toLowerCase().includes(searchTerm),
+  );
 
   useEffect(() => {
     async function getAllAllocatedCourses() {
@@ -23,9 +42,18 @@ const CourseAllocated = () => {
     }
     getAllAllocatedCourses();
   }, []);
+
   return (
     <div className="container mx-auto px-4 mb-10" id="course-allocated">
       <h1 className="text-xl font-semibold my-10">Courses Allocated</h1>
+      <div>
+        <Input
+          value={searchTerm}
+          onChange={handleSearchChange}
+          placeholder="Search based on course title"
+          className="mb-4 rounded-full pl-4"
+        />
+      </div>
       <Table>
         <TableHeader>
           <TableRow>
@@ -37,11 +65,12 @@ const CourseAllocated = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {allAllocatedCourses?.data.map((course, index) => (
+          {filteredCourses?.map((course, index) => (
             <TableRow id={course._id} key={index}>
               <TableCell className="font-medium">{course.session}</TableCell>
               <TableCell>
-                {course.course_code} {course.semester === "first" ? ".1" : ".2"}
+                {course.course_code}
+                {course.semester === "first" ? ".1" : ".2"}
               </TableCell>
               <TableCell>
                 <Link href={`/course-description/${course._id}`}>{course.course_title}</Link>
