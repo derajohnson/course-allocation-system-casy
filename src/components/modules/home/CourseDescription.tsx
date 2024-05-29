@@ -18,7 +18,6 @@ const CourseDescription = () => {
     getIndividualCourse();
   }, []);
 
-  console.log(individualCourse);
   return (
     <div>
       <Link href="/">
@@ -45,14 +44,14 @@ const CourseDescription = () => {
             <p className="text-gray-700">
               Head Lecturer:{" "}
               <span className="font-bold text-black">
-                {" "}
+                {individualCourse?.data.head_lecturer.title}{" "}
                 {individualCourse?.data.head_lecturer.name}
               </span>
             </p>
             <p className="text-gray-700">
               Assistant Lecturer:{" "}
               <span className="font-bold text-black">
-                {" "}
+                {individualCourse?.data.assistant_lecturer.title}{" "}
                 {individualCourse?.data.assistant_lecturer.name}
               </span>
             </p>

@@ -6,7 +6,7 @@ import Link from "next/link";
 
 type Props = {
   title: string;
-  icon: string;
+  icon?: string;
   url: string;
 };
 

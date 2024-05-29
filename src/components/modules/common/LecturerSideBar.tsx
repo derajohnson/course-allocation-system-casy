@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import SidebarItem from "./SideBarItem";
-import { LayoutDashboardIcon, User } from "lucide-react";
+import { User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { handleGetLecturer } from "@/services/Lecturers";
 

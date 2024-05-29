@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const layout = async ({ children }: { children: React.ReactNode }): Promise<React.JSX.Element> => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[287px_1fr] w-full h-screen fixed">
-      <LecturerSidebar user="Jose" />
+      <LecturerSidebar />
 
       <main className="px-[16px] md:px-[48px] py-[32px] md:py-[56px]  overflow-y-auto md:h-screen h-full">
         {children}

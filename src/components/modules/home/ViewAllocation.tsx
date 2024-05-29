@@ -46,7 +46,9 @@ const CourseAllocated = () => {
                 <Link href={`/course-description/${course._id}`}>{course.course_title}</Link>
               </TableCell>
               <TableCell>Year {course.level.split(0, 2)}</TableCell>
-              <TableCell>{course.head_lecturer.name}</TableCell>
+              <TableCell>
+                {course.head_lecturer.title} {course.head_lecturer.name}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
