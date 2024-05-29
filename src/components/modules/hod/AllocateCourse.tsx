@@ -19,7 +19,7 @@ import {
   FormMessage,
   Form,
 } from "@/components/ui/form";
-import { CourseAllocate, courseAllocateSchema } from "@/models/Courses";
+import { CourseAllocate, ListOfCourses, courseAllocateSchema } from "@/models/Courses";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { handleAllocateCourse, handleGetAllCourses } from "@/services/Courses";
 import { useEffect, useState } from "react";
@@ -27,15 +27,24 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import LoaderButton from "../common/LoaderButton";
 import handleGetAllLecturers from "@/services/Lecturers";
+import { ListOfLecturers } from "@/models/Lecturers";
 
 const AllocateCourse = () => {
-  const [allCourses, setAllCourses] = useState();
-  const [lecturerProfiles, setLecturerProfiles] = useState();
+  const [allCourses, setAllCourses] = useState<ListOfCourses>();
+  const [lecturerProfiles, setLecturerProfiles] = useState<ListOfLecturers>();
 
   const { toast } = useToast();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const token = localStorage.getItem("authToken");
+  const [token, setAuthToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // This code runs only on the client-side
+      const token = localStorage.getItem("authToken");
+      setAuthToken(token);
+    }
+  }, []);
   const form = useForm<CourseAllocate>({
     resolver: zodResolver(courseAllocateSchema),
     defaultValues: {
@@ -52,7 +61,6 @@ const AllocateCourse = () => {
     assistant_lecturer,
   }: CourseAllocate): Promise<void> => {
     setLoading(true);
-    console.log(course_code);
     const result = await handleAllocateCourse(
       session,
       course_code,
@@ -92,7 +100,7 @@ const AllocateCourse = () => {
     }
     getLecturers();
     getAllCourses();
-  }, []);
+  }, [token]);
 
   return (
     <div>
@@ -146,7 +154,7 @@ const AllocateCourse = () => {
                         <SelectContent>
                           <SelectGroup>
                             {allCourses?.data.map((course, index) => (
-                              <SelectItem key={index} value={course._id}>
+                              <SelectItem key={index} value={course._id as string}>
                                 {course.course_code}
                                 {course.semester === "first" ? ".1" : ".2"}
                               </SelectItem>
@@ -182,12 +190,10 @@ const AllocateCourse = () => {
                         <SelectContent>
                           <SelectGroup>
                             {lecturerProfiles?.data.map((lecturer, index) => (
-                              <SelectItem key={index} value={lecturer._id}>
-                                {lecturer.fullname}
+                              <SelectItem key={index} value={lecturer._id as string}>
+                                {lecturer.title} {lecturer.fullname}
                               </SelectItem>
                             ))}
-                            <SelectItem value="lecturer1">Dr Linda Oghenekaro</SelectItem>
-                            <SelectItem value="lecturer2">Dr C.B Marcus</SelectItem>
                           </SelectGroup>
                         </SelectContent>
                       </Select>
@@ -220,12 +226,10 @@ const AllocateCourse = () => {
                         <SelectContent>
                           <SelectGroup>
                             {lecturerProfiles?.data.map((lecturer, index) => (
-                              <SelectItem key={index} value={lecturer._id}>
-                                {lecturer.fullname}
+                              <SelectItem key={index} value={lecturer._id as string}>
+                                {lecturer.title} {lecturer.fullname}
                               </SelectItem>
                             ))}
-                            <SelectItem value="lecturer3">Professor Edward Ogheneovo</SelectItem>
-                            <SelectItem value="lecturer4">Dr Musa</SelectItem>
                           </SelectGroup>
                         </SelectContent>
                       </Select>

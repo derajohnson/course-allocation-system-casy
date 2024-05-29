@@ -23,25 +23,30 @@ import { useEffect, useState } from "react";
 import { handleGetAllCourses } from "@/services/Courses";
 import { useToast } from "@/components/ui/use-toast";
 import LoaderButton from "../common/LoaderButton";
+import { ListOfCourses } from "@/models/Courses";
 
 const Dashboard = () => {
   const { toast } = useToast();
   const [deletingCourseId, setDeletingCourseId] = useState<string | null>(null);
-  const [allCourses, setAllCourses] = useState();
+  const [allCourses, setAllCourses] = useState<ListOfCourses>();
+  const [token, setAuthToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const authToken = localStorage.getItem("authToken");
-
-    if (!authToken) {
-      throw new Error("No authentication token found");
+    if (typeof window !== "undefined") {
+      // This code runs only on the client-side
+      const token = localStorage.getItem("authToken");
+      setAuthToken(token);
     }
+  }, []);
+  useEffect(() => {
     async function getAllCourses() {
-      const data = await handleGetAllCourses(authToken as string);
+      const data = await handleGetAllCourses(token as string);
       setAllCourses(data);
     }
     getAllCourses();
-  }, [handleDeleteCourse]);
+  }, [handleDeleteCourse, token]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   function handleDeleteCourse(courseId: string) {
     setDeletingCourseId(courseId);
     const authToken = localStorage.getItem("authToken");
@@ -145,7 +150,7 @@ const Dashboard = () => {
                 <Button>Edit</Button>
                 <LoaderButton
                   className="w-[30%]"
-                  onSubmit={() => handleDeleteCourse(data._id)}
+                  onSubmit={() => handleDeleteCourse(data._id as string)}
                   isLoading={deletingCourseId === data._id}
                 >
                   Delete

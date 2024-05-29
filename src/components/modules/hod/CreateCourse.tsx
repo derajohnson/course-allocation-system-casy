@@ -26,7 +26,7 @@ import { Course, courseSchema } from "@/models/Courses";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { handleCreateCourse } from "@/services/Courses";
 import { useToast } from "@/components/ui/use-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoaderButton from "../common/LoaderButton";
 
 const CreateCourse = () => {
@@ -34,7 +34,15 @@ const CreateCourse = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const token = localStorage.getItem("authToken");
+  const [token, setAuthToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // This code runs only on the client-side
+      const token = localStorage.getItem("authToken");
+      setAuthToken(token);
+    }
+  }, []);
   const form = useForm<Course>({
     resolver: zodResolver(courseSchema),
     defaultValues: {

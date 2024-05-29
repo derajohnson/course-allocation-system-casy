@@ -8,24 +8,27 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { AllocatedCourse } from "@/models/Courses";
 import { handleGetLecturerCourses } from "@/services/Lecturers";
 import { useEffect, useState } from "react";
 
 const ViewAllocation = () => {
-  const [lecturerCourses, setLecturerCourses] = useState();
+  const [lecturerCourses, setLecturerCourses] = useState<AllocatedCourse>();
+
+  const [token, setAuthToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const authToken = localStorage.getItem("authToken");
-
-    if (!authToken) {
-      throw new Error("No authentication token found");
+    if (typeof window !== "undefined") {
+      // This code runs only on the client-side
+      const token = localStorage.getItem("authToken");
+      setAuthToken(token);
     }
     async function getLecturer() {
-      const data = await handleGetLecturerCourses(authToken as string);
+      const data = await handleGetLecturerCourses(token as string);
       setLecturerCourses(data);
     }
     getLecturer();
-  }, []);
+  }, [token]);
   return (
     <div>
       <h1 className="text-xl font-semibold mb-10">View Your Allocated Courses</h1>

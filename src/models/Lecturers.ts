@@ -1,11 +1,24 @@
-export type Lecturer = [
-  {
-    title: string;
-    fullname: string;
+export type Lecturer = {
+  data: {
     department: string;
     designation: string;
-    phone_number: string;
     email: string;
-    type: string;
-  },
-];
+    fullname: string;
+    phone_number: string;
+    title: string;
+  };
+};
+
+export type ListOfLecturers = {
+  data: [
+    {
+      department: string;
+      designation: string;
+      email: string;
+      fullname: string;
+      phone_number: string;
+      title: string;
+      _id?: string | undefined;
+    },
+  ];
+};

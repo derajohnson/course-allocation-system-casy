@@ -1,23 +1,27 @@
 "use client";
 
+import { Lecturer } from "@/models/Lecturers";
 import { handleGetLecturer } from "@/services/Lecturers";
 import { useEffect, useState } from "react";
 
 const MyProfile = () => {
-  const [lecturer, setLecturer] = useState();
+  const [lecturer, setLecturer] = useState<Lecturer>();
+  const [token, setAuthToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const authToken = localStorage.getItem("authToken");
-
-    if (!authToken) {
-      throw new Error("No authentication token found");
+    if (typeof window !== "undefined") {
+      // This code runs only on the client-side
+      const token = localStorage.getItem("authToken");
+      setAuthToken(token);
     }
+  }, []);
+  useEffect(() => {
     async function getLecturer() {
-      const data = await handleGetLecturer(authToken as string);
+      const data = await handleGetLecturer(token as string);
       setLecturer(data);
     }
     getLecturer();
-  }, []);
+  }, [token]);
 
   return (
     <div>

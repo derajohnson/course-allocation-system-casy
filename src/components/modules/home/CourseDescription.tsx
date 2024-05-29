@@ -1,5 +1,6 @@
 "use client";
 
+import { IndividualCourse } from "@/models/Courses";
 import { handleGetIndividualCourse } from "@/services/Courses";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -8,7 +9,7 @@ import { useEffect, useState } from "react";
 const CourseDescription = () => {
   const params = useParams();
   const slug = params.slug;
-  const [individualCourse, setIndividualCourse] = useState();
+  const [individualCourse, setIndividualCourse] = useState<IndividualCourse>();
 
   useEffect(() => {
     async function getIndividualCourse() {
@@ -16,7 +17,7 @@ const CourseDescription = () => {
       setIndividualCourse(data);
     }
     getIndividualCourse();
-  }, []);
+  }, [slug]);
 
   return (
     <div>
@@ -31,7 +32,7 @@ const CourseDescription = () => {
           <h1 className="text-2xl text-center font-bold ">{individualCourse?.data.course_title}</h1>
           <div className="flex gap-10 justify-center my-3">
             <p>Session: {individualCourse?.data.session} </p>
-            <p>Year: {individualCourse?.data.level.split(0, 2)}</p>
+            <p>Year: {individualCourse?.data.level.slice(0, 1)}</p>
             <p>Credit unit: {individualCourse?.data.credit_unit}</p>
             <p>
               Course code: {individualCourse?.data.course_code}

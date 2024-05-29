@@ -8,12 +8,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { AllocatedCourse } from "@/models/Courses";
 import { handleGetAllAllocatedCourses } from "@/services/Courses";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const CourseAllocated = () => {
-  const [allAllocatedCourses, setAllAllocatedCourses] = useState();
+  const [allAllocatedCourses, setAllAllocatedCourses] = useState<AllocatedCourse>();
 
   useEffect(() => {
     async function getAllAllocatedCourses() {
@@ -45,7 +46,7 @@ const CourseAllocated = () => {
               <TableCell>
                 <Link href={`/course-description/${course._id}`}>{course.course_title}</Link>
               </TableCell>
-              <TableCell>Year {course.level.split(0, 2)}</TableCell>
+              <TableCell>Year {course.level.slice(0, 1)}</TableCell>
               <TableCell>
                 {course.head_lecturer.title} {course.head_lecturer.name}
               </TableCell>

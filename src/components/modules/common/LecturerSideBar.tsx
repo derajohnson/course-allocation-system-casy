@@ -5,6 +5,7 @@ import SidebarItem from "./SideBarItem";
 import { User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { handleGetLecturer } from "@/services/Lecturers";
+import { Lecturer } from "@/models/Lecturers";
 
 type SidebarType = {
   title: string;
@@ -23,7 +24,7 @@ const LecturerSidebar = (): React.JSX.Element => {
     router.replace("/");
   }
 
-  const [lecturer, setLecturer] = useState();
+  const [lecturer, setLecturer] = useState<Lecturer>();
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");

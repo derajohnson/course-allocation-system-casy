@@ -7,6 +7,56 @@ export type Course = {
   course_description: string;
   course_title: string;
   credit_unit: number;
+  _id?: string;
+  is_allocated?: boolean;
+};
+
+export type ListOfCourses = {
+  data: Course[];
+};
+
+export type IndividualCourse = {
+  data: {
+    course_code: string;
+    course_description: string;
+    course_title: string;
+    credit_unit: number;
+    level: string;
+    semester: string;
+    session: string;
+    _id: string;
+    head_lecturer: {
+      name: string;
+      title: string;
+    };
+    assistant_lecturer: {
+      name: string;
+      title: string;
+    };
+  };
+};
+
+export type AllocatedCourse = {
+  data: [
+    {
+      course_code: string;
+      course_description: string;
+      course_title: string;
+      credit_unit: number;
+      level: string;
+      semester: string;
+      session: string;
+      _id: string;
+      head_lecturer: {
+        name: string;
+        title: string;
+      };
+      assistant_lecturer: {
+        name: string;
+        title: string;
+      };
+    },
+  ];
 };
 
 export type CourseAllocate = {
