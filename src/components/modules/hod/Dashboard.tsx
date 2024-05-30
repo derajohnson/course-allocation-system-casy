@@ -140,10 +140,9 @@ const Dashboard = () => {
               <TableCell>{data.level}</TableCell>
               <TableCell>{data.credit_unit}</TableCell>
 
-              <TableCell className="flex gap-3">
-                <Button>Edit</Button>
+              <TableCell className="flex">
                 <LoaderButton
-                  className="w-[30%]"
+                  className="w-[40%]"
                   onSubmit={() => handleDeleteCourse(data._id as string)}
                   isLoading={deletingCourseId === data._id}
                 >

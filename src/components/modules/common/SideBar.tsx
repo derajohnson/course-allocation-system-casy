@@ -35,7 +35,7 @@ const Sidebar = (): React.JSX.Element => {
             <div className="flex gap-1 items-center">
               <p className="text-[18px] leading-[18px] font-medium text-muted">Welcome,</p>
             </div>
-            <p className="text-[14px] leading-[14px] font-normal text-muted">Dr, Ugochi</p>
+            <p className="text-[14px] leading-[14px] font-normal text-muted">Dr, Ugochi Okengwu</p>
           </div>
         </div>
         <div>

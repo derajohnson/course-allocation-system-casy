@@ -159,8 +159,6 @@ const AllocateCourse = () => {
                                 {course.semester === "first" ? ".1" : ".2"}
                               </SelectItem>
                             ))}
-                            <SelectItem value="396">CSC 396</SelectItem>
-                            <SelectItem value="280">CSC 280</SelectItem>
                           </SelectGroup>
                         </SelectContent>
                       </Select>

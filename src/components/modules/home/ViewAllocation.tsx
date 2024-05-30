@@ -35,14 +35,6 @@ const CourseAllocated = () => {
     course.course_title.toLowerCase().includes(searchTerm),
   );
 
-  useEffect(() => {
-    async function getAllAllocatedCourses() {
-      const data = await handleGetAllAllocatedCourses();
-      setAllAllocatedCourses(data);
-    }
-    getAllAllocatedCourses();
-  }, []);
-
   return (
     <div className="container mx-auto px-4 mb-10" id="course-allocated">
       <h1 className="text-xl font-semibold my-10">Courses Allocated</h1>
