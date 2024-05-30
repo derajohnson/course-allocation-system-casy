@@ -38,12 +38,12 @@ const CourseAllocated = () => {
   return (
     <div className="container mx-auto px-4 mb-10" id="course-allocated">
       <h1 className="text-xl font-semibold my-10">Courses Allocated</h1>
-      <div>
+      <div className="flex justify-center">
         <Input
           value={searchTerm}
           onChange={handleSearchChange}
           placeholder="Search based on course title"
-          className="mb-4 rounded-full pl-4"
+          className="mb-10 rounded-full pl-4 w-[50%]"
         />
       </div>
       <Table>

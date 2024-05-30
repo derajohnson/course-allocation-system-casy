@@ -153,12 +153,15 @@ const AllocateCourse = () => {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectGroup>
-                            {allCourses?.data.map((course, index) => (
-                              <SelectItem key={index} value={course._id as string}>
-                                {course.course_code}
-                                {course.semester === "first" ? ".1" : ".2"}
-                              </SelectItem>
-                            ))}
+                            {allCourses?.data.map(
+                              (course, index) =>
+                                !course.is_allocated && (
+                                  <SelectItem key={index} value={course._id as string}>
+                                    {course.course_code}
+                                    {course.semester === "first" ? ".1" : ".2"}
+                                  </SelectItem>
+                                ),
+                            )}
                           </SelectGroup>
                         </SelectContent>
                       </Select>

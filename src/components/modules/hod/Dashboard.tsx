@@ -103,12 +103,12 @@ const Dashboard = () => {
   return (
     <div>
       <h1 className="text-xl font-semibold mb-10">Course List</h1>
-      <div>
+      <div className="flex justify-center">
         <Input
           value={searchTerm}
           onChange={handleSearchChange}
           placeholder="Search based on course title"
-          className="mb-4 rounded-full pl-4"
+          className="mb-10 rounded-full pl-4 w-[50%]"
         />
       </div>
 
