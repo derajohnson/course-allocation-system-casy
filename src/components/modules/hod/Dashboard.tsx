@@ -24,12 +24,14 @@ import { handleGetAllCourses } from "@/services/Courses";
 import { useToast } from "@/components/ui/use-toast";
 import LoaderButton from "../common/LoaderButton";
 import { ListOfCourses } from "@/models/Courses";
+import { Input } from "@/components/ui/input";
 
 const Dashboard = () => {
   const { toast } = useToast();
   const [deletingCourseId, setDeletingCourseId] = useState<string | null>(null);
   const [allCourses, setAllCourses] = useState<ListOfCourses>();
   const [token, setAuthToken] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -88,34 +90,26 @@ const Dashboard = () => {
       });
   }
 
+  // Handler for search input change
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value.toLowerCase());
+  };
+
+  // Filtered courses based on search term
+  const filteredCourses = allCourses?.data.filter((course) =>
+    course.course_title.toLowerCase().includes(searchTerm),
+  );
+
   return (
     <div>
       <h1 className="text-xl font-semibold mb-10">Course List</h1>
-      <div className="flex gap-20 mb-10">
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a level" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="100">100</SelectItem>
-              <SelectItem value="200">200</SelectItem>
-              <SelectItem value="300">300</SelectItem>
-              <SelectItem value="400">400</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select semester" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="first">First</SelectItem>
-              <SelectItem value="second">Second</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+      <div>
+        <Input
+          value={searchTerm}
+          onChange={handleSearchChange}
+          placeholder="Search based on course title"
+          className="mb-4 rounded-full pl-4"
+        />
       </div>
 
       <Table>
@@ -129,7 +123,7 @@ const Dashboard = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {allCourses?.data.map((data, index) => (
+          {filteredCourses?.map((data, index) => (
             <TableRow key={index}>
               <TableCell className="font-medium">
                 {data.course_code}
